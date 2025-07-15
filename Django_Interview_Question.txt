@@ -1,0 +1,590 @@
+1. What is the Command to install Django & To know about it's version? 
+= Command to install django:-  pip install django 
+= Command to check Django version:- 
+    1. python -m django --version 
+    2. django-admin --version
+
+2. What is the command to create a Project & an App in Django ?
+= Command to create a Project:
+    django-admin startproject <projectName>
+
+= Command to create an App:
+    python manage.py startapp <appName>
+
+3. What is the command to run a Project in Django? 
+= Command to run a Project:
+    python manage.py runserver 
+
+= For instance, this command starts the server on port 8080:
+    python manage.py runserver 8080 
+
+= If you want to change the server's IP, Pass it along with the port, use:
+    python manage.py runserver 0.0.0.0:8000 
+
+
+4. What is the command for migrations in Django? 
+= Command to create a migration file inside the migration folder:
+    python manage.py makemigrations 
+
+= After creating a migration, to reflect changes in the database permanently execute migrate command:
+    python manage.py migrate 
+
+= To see raw SQL query executing behind applied migration execute the command:
+    python manage.py sqlmigrate app_name migration_name 
+    python manage.py sqlmigrate myappp 0001 
+
+= To see all migrations, execute the command:
+    python manage.py showmigrations 
+
+= To see app specific migrations by specifying app-name, execute the command:
+    python manage.py showmigrations myapp 
+
+
+5. What is the command to create a superuser in Django? 
+= Command to create a superuser:
+    python manage.py createsuperuser 
+
+
+
+6. What is the command to view a database schema of an existing (or legacy) database? 
+= Command to view a database schema of an existing (or legacy) database:
+    python manage.py inspectdb 
+
+
+7. How to view all items in the model using Django queryset? 
+= Modelname.objects.all()
+
+8. How to filter items in the model using Django queryset? 
+= Modelname.objects.filter(name="Harshil")
+
+9. How to get a particular item in the model using Django queryset? 
+= Modelname.objects.get(id=34)
+
+10. How to delete/insert/update an object using queryset in django? 
+= Delete particular item:
+    Modelname.objects.filter(id=23).delete()
+
+= Update particular item: 
+    user = Modelname.object.get(pk=3)
+    user.city = "Ahmedabad" 
+    user.save()
+
+= Insert Item: 
+    user = User(name="Harshil", city = "Surat")
+    user.save()
+
+
+
+
+11. How can you combine Multiple queryset in a view? 
+= Way 1 - Using Union operator:
+    = If both queryset belong to the same model, such as queryset1 and queryset2, then you can use union operator "|"
+    to easily combine those queryset. 
+    ex: result = queryset1 | queryset2
+
+= Way 2 - Using Itertools: 
+    = If both queryset belong to the different model, such as queryset1 and queryset3, 
+    then you can use itertools combine those queryset. 
+    ex: 
+    from itertools import chain 
+    combined_list = list(chain(queryset1, queryset3))
+
+
+
+
+==================================================================================================================================
+12. What is the different between a Project and and App in Django? 
+= A project is the entire Django Application and an App is a module inside the project that deals with one specific use case. 
+= For Example:- Payment System(App) in the E-commerce (Project). 
+
+
+13. Which is the Default Database in settings file in Django? 
+= Database Name: SQLite 
+
+
+14. Which is the default port for the Django Development Server? 
+= Default port for Django Development Server : 8000 
+
+15. Difference between Emp.object.filter(), Emp.object.get() and Emp.objects.all() in Django Queryset?  
+= Emp.objects.all() = returns all the items 
+= Emp.objects.get(id=1) = return only one item, if you return more than one to raise a errors and doesn't found the elements to raise error.
+= Emp.objects.filter(name="harshil") = return one or more then one items and doesn't found the elements to return empty data show.
+
+
+16. Which Companies Uses Django? 
+= Instagram
+= Spotify
+= Youtube
+= Dropbox 
+= Bitbucket
+
+
+17. What databases are supported by Django?
+= PostgreSQl 
+= MySQL 
+= SQLite 
+= Best suited database is PostgreSQl
+
+18. What is the significance of the manage.py file in Django?
+= The manage.py file is automatically generated whenever you create a project. 
+= This is basically a command-line utility that help you to interact with your django project in various ways.
+
+
+19. What is the use of the include function in the urls.py file in Django?
+= As in Django there can be many apps, each app may have some URLs that it responds to. 
+= Rather than registering all URLs for all apps in a single urls.py, each app maintains its own urls.py file, and in the project urls.py 
+file we use each individual url.py file each app by using the include function.
+
+
+20. What does {% include %} do in Django?
+= It loads a template and renders it with the current context. 
+= This way of "including" other templates within a template.
+= Each include is a completely independent rendering process. 
+
+
+21. What is Django Rest Framework(DRF)?
+= DRF is a framework that helps you quickly create RESTful API. 
+= Features:
+    1. Web Browsable API 
+    2. Serialization
+    3. Authentication Policies 
+
+
+
+
+===============================================================================================================================
+22. What is Django 
+= Django is a free, open-source python based high-level web framework. 
+= It follows the Model View Template(MVT) architectural pattern.
+= It was originally created by Adrian Holovaty and Simon Willison. 
+= It was released publicly under a BSD license in July 2005.
+= In June 2008, It was annouced that Django Software Foundation (DSF) would maintain Django in the future. 
+
+
+23. Why Django? 
+= It's fast and simple 
+= It's secure 
+= It suits any web applications project
+= It support MVT Architecture pattern 
+= Built-in Authentication and Authorization
+
+
+24. What is serialization in Django?
+= Serialization is the process of converting Django models into other formats such as XML, JSON, etc. 
+
+
+25. What happens if MyObject.objects.get() is called with parameters that do not match an existing item in the database?
+= MyObject.objects.get(id=5)
+= Basically use get() when you want to get a single unique object, and get() throws an error if there is no matching the query. 
+= If there are no results that match the query, get() will raise a DoesNotExist exception. 
+= If more than one Item matches the given get() query then it'll raise MultipleObjectsReturned, Which is also an attribute of the model class itself.
+
+
+26. Why does Django use regular expressions to define URLs? Is it necessary to use them?
+= Django uses a very powerful format for storing URLs, that is regular expressions.
+= It makes the searching process faster. although it's not necessary to use Regex when defining URLs. 
+
+
+
+27. What are Django exceptions?
+= An Exception is a runtime error which can be handled by the programmer.
+= Django uses its exception classes and python exception as well to deal with such situations. 
+1. Django Exception classes: we define Django core exception in "Django.core.exception".
+==================
+AppRegistryNotReady
+ObjectDoesNotExist 
+EmptyResultSet 
+FieldDoesNotExist 
+MultipleObjectsReturned
+SuspiciousOperation 
+PermissionDenied 
+ViewDoesNotExist 
+MiddlewareNotUsed 
+ImproperlyConfigured 
+FieldError 
+ValidationError
+
+2. Django URL Resolver Exception
+===========================
+Resolver404 
+NoReverseMatch 
+
+3. Django Database Exception
+========================
+DatabaseError 
+IntegrityError 
+DataError 
+
+4. Django Http Exception
+===================
+UnreadablePostError 
+
+
+5. Django Transaction Exception
+====================
+TransactionManagementError 
+
+
+
+28. Explain Q objects in Django ORM?
+= from django.db.models import Q 
+= If you need to execute more complex queries, you can use Q objects. 
+= Q objects can be combined using the & and | operators. 
+ex: Student.objects.filter(Q(id=6) & Q(roll=116))
+ex: Student.objects.filter(Q(id=7) | Q(roll=116))
+ex: Student.objects.filter(~Q(id=60))
+
+
+29. What are the advantages/disadvantages of using Django?
+= Advantages of Django 
+    1. Django is easy to set up and run
+    2. Open Source 
+    3. Fast 
+    4. More Secure 
+    5. Scalable 
+    6. Built-in Authentication and Authorization
+    7. Provides Development Web Server by Default 
+    8. Provides SQLite Database by Default 
+
+Disadvantages of Django
+    1. Django is monolithic. You must know the full system to work with it. 
+    2. Django's monolithic size makes it unsuitable for smaller project. 
+    3. Django's modules are bulky. 
+    4. Django is completely based on Django ORM. 
+
+
+30. Give a brief about the Django admin & Django admin interface.
+= Django admin panel is a kind of graphical user interface that is used for administrative task.
+= Django comes with a fully customizable in-built admin interface.
+= To use a database table with the admin interface, we need to register the model in the admin.py file.
+
+= Django admin interface provides a number of advanced features:
+    1. Authorization access 
+    2. Managing multiple models 
+    3. Content management system 
+
+=> Django Admin 
+= It is the command-line utility of django for administrative tasks. 
+= Using the django-admin you can perform a number of tasks some of which are listed below:
+1. dajngo-admin --version 
+2. django-admin startproject <project_name>
+3. django-admin startapp <app_name>
+4. django-admin runserver 
+5. django-admin changepassword <user>
+6. django-admin createsuperuser
+7. django-admin makemigrations
+8. django-admin migrate
+and so on....
+
+
+31. What is the difference between Flask and Django?
+= Django:
+    1. Created in 2005
+    2. Django is a Full Stack Web Framework.
+    3. Django doesn’t have any support for API.
+    4. Django doesn’t offer multiple types of databases.
+    5. Django comes Form with which can be integrate with the ORM and the admin site.
+    6. Django offers dynamic HTML pages.
+    7. Django offers a Monolithic working style.
+    8. The structure of the project layout for the Django is conventional.
+    9. Django Web Framework supports a large number of third-party applications.
+    10. Famous companies using Django are Instagram, Coursera, Udemy.
+    11. More Secure 
+= Flask: 
+    1. Created in 2010	
+    2. Flask is WSGI framework(Micro Framework).
+    3. Flask provides support for API.	
+    4. Flask allows you to use multiple types of databases.	
+    5. Flask has no default support for forms, but you can use WTForms to fill the gap.	
+    6. Flask does not offer dynamic HTML pages.	
+    7. Flask offers a diversified working style.	
+    8. The structure of the project layout for Flask web framework is random.	
+    9. Flask Web Framework doesn’t offer support for third-party applications.	
+    10. Famous companies using Flask are: Netflix, Reddit, Lyft, MIT	
+    11. Less Secure compare to Django 
+
+
+32. How Static Files are defined in Django? Explain its Configuration and uses.
+= CSS files, Javascript files, image files, video file are considered as static file in Django.
+= Django provide django.contrib.staticfiles to help you manage them.
+= Websites generally need to serve additional files such as images, javascript or CSS. 
+= In Django, these files are referred to as "static files".
+= we create a static folder in our application. 
+
+How to configure static files?
+1. settings.py (STATIC_URL="/static/", INSTALLED_APPS="django.contrib.staticfiles").
+2. in your django templates, use the static template tag ({% load static %}, {% static "filepath" %})
+
+==========================================================================================================================================================
+
+33. Why is Django a loosely coupled framework? 
+= Django is called a loosely coupled framework because of its MVT Architecture, which is a variant of the MVC Architecture. 
+= These Components are totally independent of each other and therefore, front-end developer and backend developer 
+    can work simultaneously on the project as these two parts changing will have little to no effect on each other when changed. 
+= Therefore, Django is a loosely coupled framework. 
+
+
+34. Explain the migration in Django. 
+= Migration in Django is to make changes to our models like Deleting a model, Adding a field, etc. into your database schema. 
+= There are several commands you use to interact with Migrations in Django:
+    1. makemigrations : This command is used to create a migration file. 
+    2. migrate : This command creates a table according to the schema defined in migration file. 
+    3. showmigrations : This command list all the migrations and their status. 
+    4. sqlmigrate : This command is used to show a raw SQL query of the applied migration. 
+
+
+35. What is the difference between Authentication and Authorization in Django?
+= Authentication:
+    = In Authorization process, the identity of users are checked for providing the access to the system.
+    = In Authorization process, users or persons are verified.
+    = It is done before the Authorization process. 
+    = It needs usually user's login details.
+= Authorization:
+    = While in Authorization process, person's or user's authorities are checked for accessing the resource. 
+    = While in this process, users or persons are validated. 
+    = while in this process is done after the Authorization process. 
+    = While it needs user's privilege or security levels.
+
+36. Explain how you can use file-based sessions?
+= Step1: override SESSION_ENGINE and add file based session. 
+    SESSION_ENGINE = "django.contrib.sessions.backends.file"
+
+= Step2: Create a Folder with name of "session" in your main project where session data will store 
+= Step3: Override SESSION_FILE_PATH and set file path 
+    SESSION_FILE_PATH = os.path.join(BASE_DIR, "session")
+
+
+37. What is Jinja templating?
+= Jinja is a web template engine for the python programming language.
+= It was created by armin ronacher. 
+= Jinja is similar to the Django template engine but provides python like expression while ensuring 
+    that the templates are evaluated in a sanbox. 
+= Jinja latest version is jinja2. 
+
+38. What is mixin?
+= Mixin is a type of multiple inheritance wherein you can combine behaviors and attribute of more than one parent class. 
+= Mixin provide an excellent way to reuse code from multiple classes. 
+= There are two main situations where mixins are used: To provide a lot of optional features for a class and to use one particular features in a lot of different classes. 
+
+
+
+39. What are generic views?
+= Generic view is used for common functionalities in web application. 
+= Advanatage of Generic View to solve the most common task in web application.
+1. DisplayView = ListView, DetailView 
+2. Editing View = FormView, CreateView, UpdateView, DeleteView
+3. Date View = ArchiveIndexView, YearArchiveView, MonthArchiveView, WeekArchiveView, DayArchiveView, TodayArchiveView, DateDetailView 
+
+
+
+40. What is Model Manager 
+= A Manager is the interface through which database query operation are provided to Django Models. 
+= At least one manager exists for every model in a Django Application.
+= Model manager is used to interact with database. 
+= By default, Django adds manager with name objects to every Django model class.
+
+
+===============================================================================================================================================
+
+
+
+41. Explain Django Architecture? Also Explain Model, Template and Views.
+= Django follows a software design pattern called as MVT (Model View Template) Architecture. 
+= It is based on the Model View Controller Architecture(MVC). 
+= But is slightly different from MVC pattern as maintains its own conventions, so, the controller is handled by the framework itself. 
+
+
+= Model: 
+    = The model responsible to handle database. It is a data access layer which handles the data. 
+    = It helps in handling the database (Models). They provide the option to create, edit and query data records in the database. 
+
+= Template: 
+    = The templates is a presentation layer. It defines the structure of file layout to represent data in a web page. 
+    = It is an HTML file mixed with Django Template Lanaguage(DTL). 
+
+= View: 
+    = The view is used to execute the business logic and interact with model to carry data and render a template. 
+
+
+
+42. Explain How a Request is processed in Django? 
+= Request > manage.py > settings.py > urls.py > views.py > models.py > templates
+
+
+43. What is Django ORM? 
+= ORM stands for Object relational Mapper. 
+= This ORM enables us to interact with databases in a more pythonic way like we can avoid writing raw queries.
+= ORM, which enables application to interact with database such as, SQLite, PostgreSQl, MySQL.
+= ORMs automatically create a database schema from defined classes or models. 
+= It generate SQL from Python code for a particular database which means developer to not need to write SQL code. 
+
+
+
+44. What do you mean by the CSRF Token?
+= CSRF stands for Cross Site Request Forgery.
+= csrf_token is used to prevent malicious attacks. 
+= A CSRF token is a unique, secret, unpredictable value that is generated by the server-side application. 
+= The csrf_token is used for protection against Cross-Site Request Forgery.
+= This kind of attack take place when a malicious website consists of a Link, some Javascript or a form whose aim 
+  is to perform some action on your website by using the login credentials of genuine user. 
+
+
+45. What is a QuerySet in Django?
+= QuerySet is a collection of SQL queries.
+= A QuerySet in django is basically a collection of objects from our database.
+= A QuerySet can be defined as a list containing all those objects we have created using the Django model.
+= QuerySet allow you to read the data from the database, filter it and order it.
+= It is comparable to a database select operation.
+
+
+46. Difference between select_related and prefetch_related in Django?
+= select_related():
+    = It is a performance booster. 
+    = It is used with ForeignKey or OneToOneField. 
+    = select_related is limited to single valued relationship foreignkey and one to one 
+
+
+= prefetch_related():
+    = prefech_related is useful for many-to-many and many-to-one objects.
+
+
+47. What is a Middleware in Django?
+= Middleware is a framework of hooks into Django’s request/response processing.
+= Each middleware component is responsible for doing some specific function.
+= Middleware is something that executes between the request and response. 
+= In simple words, you can say it acts as a bridge between the request and response.
+= Django provides various built-in middleware and also us to write our own middleware.
+
+Some usage of Middleware in Django is: 
+1. Session management 
+2. Use authentication 
+3. Cross-site request forgery protection(CSRF)
+4. Content Gzipping 
+
+
+48. What is a session in Django?
+= A session is a mechanism to store information on the server side during the interaction with the web application.
+= Session are more secured compare than cookies.
+= By default, Django stores session in your database.
+= In Django, by default session stores in the database and also allows file-based and cache based sessions.
+
+
+49. What are Django Signals?
+= The signals are utilities that allow us to associate events with actions. 
+= Signals allow certain senders to notify a set of receivers that some action has taken place. 
+
+
+50. What are different model inheritance styles in the Django?
+= Model Inheritance in django works almost identically to the normal class inheritance work in python. 
+= There are three model Inheritance are available:
+	1. Abstract Base Class Inheritance
+	2. Multi-Table Inheritance 
+	3. Proxy Model Inheritance
+	
+
+1. Abstract Base Class 
+= Abstract base classes are useful when you want to put some common information into a number of other models.
+= You write your base class and put abstract=True in the Meta class. 
+= It does not generate a database table or have a manager, and cannot be instantiated or saved directly. 
+= No table for base class, only for derived class.
+
+
+
+
+2. Multi-table Inheritance 
+= In this inheritance, each model have their own database table, which means base class and child class will have their own table.
+= The inheritance relationship introduce links between the child model and each of its parents(Via automatically created OneToOneField).
+= Create table for both base and derived class. Can Perform CRUD operation on both base and derived class.
+
+
+
+
+3. Proxy Model 
+= Sometimes, however, You only want to change the python behavior of a model - perhaps to change the default  manager, or add new method.
+= Proxy models are declared like normal models. You tells Django that it's a proxy model by settings the proxy attribute of the Meta class to True.
+= No table for base class, only for derived class.
+= Only Create table for Base class , not Create a table for proxy table (Proxy Model class)/
+
+Rules:
+1. A Proxy model must inherits from exactly one non-abstract model class.
+2. You can't inherits from multiple non-abstract model as the proxy model doesn't provide any connection between the rows in the different database tables. 
+3. A proxy model can inherits from any number of abstract model classes, providing they do not define any model fields. 
+4. If you don't specify any model managers on a proxy model, it inherits the managers from its model parents.
+
+ 
+
+51. Difference between null and blank in Django
+= null is purely database-related, whereas blank is validation-related(required in form).
+= If null=True, Django will store empty values as NULL in the database.
+= If a field has blank=True, form validation will allow entry of an empty value.
+= If a field has blank=False, the field will be required.
+
+
+
+
+
+52. Difference between ForeignKey and OneToOneField.
+= ForeignKey Field 
+    1. a Many-to-one relationship. Requires two positional arguments: The class to which the model is related and the on_delete option. 
+= OneToOneField
+    1. A One-to-One relationship. Conceptually, this is similar to a ForeignKey with unique=True, but the "reverse" side of the relation will 
+        directly return a single object. 
+
+53. Difference between Cookies and Session
+Cookies 
+    1. A cookie is a small piece of information which is stored in the client browser.
+    2. It is used to store user's data in a file permanently (or for the specified time).
+    3. Cookies are not secured.	
+Session
+    1. A session is a mechanism to store information on the server side during the interaction with the web application.
+    2. Session are more secured compare than cookies.
+    3. By default, Django stores session in your database.
+    4. In Django, by default session stores in the database and also allows file-based and cache based sessions.
+
+
+54. Type of Class Based View 
+1. Base Class-based Views/ Base View
+    1.1 View            
+    1.2 TemplateView    = TemplateView when a rendering the static pages or pages with little context 
+    1.3 RedirectView    = It redirect to a given URL.
+2. Generic Class-based Views/ Generic View
+    2.1 ListView        
+    2.2 DetailView      
+    2.3 FormView        
+    2.4 CreateView      
+    2.5 UpdateView 
+
+
+
+55. Difference between class based view and function based view. 
+
+Function Based View:= 
+    Pros:
+        1. Easy to read, understand and implement.
+        2. Explicit code flow 
+        3. Straightforward usage of decorators. 
+    Cons: 
+        1. Code redundancy and hard to extend 
+        2. Conditional branching will be used to handle HTTPP methods.
+
+Class Based View:
+    Pros:
+        1. Code Reuseability = In CBV, a view class can be inherited by another view class and modified for different use case. 
+        2. DRY = Using CBV's help to reduce code duplication 
+        3. Code extendability = CBV can be extended to include more functionalities using mixins 
+        4. Code structuring 
+    Cons:   
+        1. Harder to read 
+        2. Implicit code flow 
+        3. Use of view decorators require extra import , or method override 
+
+
+
+
+Mostly Ask Question 
+=============================
+What are Django Signals?
+What is Caching?
+= A Cache is an information technology for the temporary storage (Caching) of web documents, such as web pages, images, and other types of 
+    web multimedia, to reduce server lag.
+= Caching is one of those methods which a website implements to become faster. It is cost efficient and saves CPU processing time.

@@ -1,0 +1,382 @@
+QuerySet API
+= A queryset can be defined as a list containing all those objects we have created using the Django model.
+= Querysets allow you to read the data from the database, filter it and order it. 
+
+
+query property = This property is used to get sql query of query set.
+
+
+Methods that return new Querysets
+========================================
+1. all() -  Retrieving all objects.
+= This method is used to retrieve all objects.
+
+
+2. filter(**kwargs) 
+- Retrieving specific objects 
+- It returns new queryset containg objects that match the given lookup parameters. 
+
+3. exclude(**kwargs)
+- It returns new Queryset containing objects that do not match the given lookup parameters.
+
+4. order_by(*fields)
+- It orders the fields 
+- "field" => Asc order 
+- "-field" => Desc order 
+- "?" => Randomly 
+
+5. reverse()
+- This work only when there is ordering in queryset. 
+
+6. distinct(*fields)
+- This eliminates duplicate rows from the query results. 
+
+7. values(*fields, **expressions)
+- Returns a QuerySet that returns dictionaries, rather than model instances, when used as an iterable.
+- The values() method returns a QuerySet containing dictionaries:
+ex: <QuerySet [{'comment_id': 1}, {'comment_id': 2}]>
+
+
+8. values_list(*fields, flat=False, named=False)
+- This is similar to values() except that instead of returning dictionaries, it returns tuples
+
+9. dates(field, kind, order='ASC')
+- Returns a QuerySet that evaluates to a list of datetime.date objects representing all available 
+    dates of a particular kind within the contents of the QuerySet.
+- field should be the name of a DateField of your model.
+- kind should be either "year", "month", "week", or "day".
+    - "year" returns a list of all distinct year values for the field.
+    - "month" returns a list of all distinct year/month values for the field.
+    - "week" returns a list of all distinct year/week values for the field. All dates will be a Monday.
+    - "day" returns a list of all distinct year/month/day values for the field.
+- order, which defaults to 'ASC', should be either 'ASC' or 'DESC'.
+
+
+
+10. datetimes(field_name, kind, order='ASC', tzinfo=None, is_dst=None)
+- Returns a QuerySet that evaluates to a list of datetime.datetime objects representing all available
+ dates of a particular kind within the contents of the QuerySet.
+- field_name should be the name of a DateTimeField of your model.
+- kind should be either "year", "month", "week", "day", "hour", "minute", or "second".
+- order, which defaults to 'ASC', should be either 'ASC' or 'DESC'.
+
+
+11. union(*other_qs, all=False)
+- Uses SQL’s UNION operator to combine the results of two or more QuerySets.
+- The UNION operator selects only distinct values by default. 
+- To allow duplicate values, use the all=True argument.
+
+
+12. intersection(*other_qs) - common record with two queryset 
+- Uses SQL’s INTERSECT operator to return the shared elements of two or more QuerySets. 
+
+
+
+13. select_related(*fields)
+14. defer(*fields)
+15. only(*fields)
+16. prefetch_related(*lookups)
+17. select_for_update()
+18. raw()
+19. annotate(*args, **kwagrs)
+
+
+
+Operators that return new QuerySets
+======================================
+- Combined querysets must use the same model.
+
+1. AND (&)
+- Combines two QuerySets using the SQL AND operator in a manner similar to chaining filters.
+Example:
+    student_data = Student.objects.filter(id=6) & Student.objects.filter(roll=106)
+    student_data = Student.objects.filter(id=6, roll=106)
+    student_data = Student.objects.filter(Q(id=6) & Q(roll=106))
+
+
+2. OR (|)
+- Combines two QuerySets using the SQL OR operator.
+Example: 
+    student_data = Student.objects.filter(id=6) | Student.objects.filter(roll=106)
+    student_data = Student.objects.filter(Q(id=6) | Q(roll=106))
+
+
+
+
+
+
+Methods that do not return new Querysets
+========================================
+1. get() - Retrieving a single object 
+= It returns one single object. 
+= If there is no result match it will raise DoesNotExist exception. 
+= If more than one item matches the get() query. it will raise MultipleObjectsReturned.
+
+
+
+2. first()
+= It returns the first object matched by the queryset, or None if there is no matching object.
+= If the queryset has no ordering defined, then the queryset is automatically ordered by the primary key. 
+ex:
+Student.objects.first()
+Student.objects.order_by("name").first()
+
+
+3. last()
+= It returns the last object matched by the queryset, or None if there is no matching object.
+= If the queryset has no ordering defined, then the queryset is automatically ordered by the primary key. 
+ex:
+Student.objects.last()
+Student.objects.order_by("name").last()
+
+
+4. latest(*fields)
+= It returns the latest object in the table based on the given fields.
+
+5. earliest(*fields)
+= It returns the latest object in the table based on the given fields.
+
+6. exists()
+= The exists() method returns True if the QuerySet contains any rows or False otherwise.
+= Behind the scenes, the exists() will attempt to perform the query in the fastest way possible. 
+
+7. create(**kwargs)
+= A convenience method for creating an object and saving it all in one step. 
+Ex:
+s = Student(name="Harshil")
+s.save()
+
+or 
+
+s = Student.objects.create(name="Harshil")
+
+
+8. get_or_create(defaults=None,**kwargs)
+
+
+9. update(**kwagrs)
+= Performs an SQL update query for the specified fields, and returns the number of rows matched. 
+ex:
+Student.objects.filter(id=1).update(marks=90)
+
+
+10. update_or_create(defaults=None, **kwagrs)
+
+11. bulk_create(objs)
+ex:
+objs = [
+        Student(name="Priya", roll=117, city="Ahmedabad", marks=75, pass_date="2023-05-16"),
+        Student(name="Riya", roll=118, city="Vejalpur", marks=80, pass_date="2023-05-17"),
+        ]
+student_data = Student.objects.bulk_create(objs)
+
+
+12. bulk_update(objs)
+
+13. delete()
+= The delete method, conveniently, is named delete().
+= This method immediately deletes the object and returns the number of objects deleted and a dictionary 
+with the number of deletion per object type. 
+ex:
+student_data = Student.objects.filter(id=10).delete()
+
+14. count()
+= It returns integer representing the number of objects in the database matching the QuerySet. 
+
+
+
+
+Field Lookups 
+===========================
+= Field lookups are how you specify the meet of an SQL WHERE clause. 
+= They are specify as keyword arguments to the QuerySet methods filter(), exclude() and get().
+= If you pass an invalid keyword argument, a lookup function will raise TypeError. 
+Syntax:
+    field__lookups = value 
+Example:
+    Student.objects.filter(marks__lt=15)
+SQL:
+    SELECT * from myapp_student WHERE marks < 15;
+
+= The field specified in a lookup has to be the name of a model field. 
+
+
+= Field lookups in Django are a way to specify conditions when querying a database. 
+= They allow you to filter the results of a query based on specific criteria, such as the field’s value, type, or field’s presence.
+= Field lookups can be used with all the major database systems supported by Django, including PostgreSQL, MySQL, and SQLite.
+
+
+
+1. exact
+= The exact lookup is used to get records with a specified value. This is case sensitive.
+
+2. iexact
+= The iexact lookup is used to get records with a specified value. This is case insensitive.
+
+3. contains 
+= The contains lookup is used to get records that contains a specified value. This is case sensitive.
+
+4. icontains 
+= The icontains lookup is used to get records that contains a specified value. This is case insensitive.
+
+5. in 
+= The in lookup is used to get records where the value is one of the values in an iterable (list, tuple, string, queryset).
+
+Relational operators
+=========================
+
+6. gt (greater than)
+= The gt lookup is used to get records that are larger than a specified value.
+
+7. gte (greater than or equal to)
+= The gte lookup is used to get records that are larger than, or equal to, a specified value.
+
+8. lt (less than)
+= The lt lookup is used to get records that are less than a specified value.
+
+9. lt (less than or equal to)
+= The lte lookup is used to get records that are less than, or equal to, a specified value.
+
+=========================
+
+10. startswith
+= The startswith lookup is used to get records that starts with a specified value. This is case sensitive.
+
+11. istartswith
+= The istartswith lookup is used to get records that starts with a specified value. This is case insensitive.
+
+12. endswith
+= The endswith lookup is used to get records that ends with a specified value. This is case sensitive.
+
+13. iendswith
+= The iendswith lookup is used to get records that ends with a specified value. This is case insensitive.
+
+
+
+=========================
+
+14. range 
+= The range lookup is used to get records that are between two values.
+
+15. isnull
+= isnull is used to filter the null values in the Django ORM. It accepts True or False.
+
+
+Datetime 
+========================
+16. date    = datetime field 
+17. year    = date and datetime field 
+18. month   = date and datetime field 
+19. day     = date and datetime field 
+20. week    = date and datetime field 
+21. week_day= date and datetime field  
+22. quarter = date and datetime field  
+23. time    = datetime field and time field
+24. hour    = datetime field and time field
+25. minute  = datetime field and time field
+26. second  = datetime field and time field
+
+
+
+
+
+Q objects 
+======================
+= Q object is an object used to encapsulate a collection of keyword arguments.
+= These keyword arguments are specified as in "Field lookups".
+= If you need to execute more complex queries, you can use Q objects. 
+= Q objects can be combined using the & and | operators. 
+    When an operator is used on two Q objects, it yields a new Q object. 
+= from django.db.models import Q 
+
+1. & (AND) Operator
+= Student.objects.filter(Q(id=6) & Q(roll=106))
+
+2. | (OR) Operator
+= Student.objects.filter(Q(id=6) | Q(roll=106))
+
+3. ~ Negation Operator
+= Student.objects.filter(~Q(id=6))
+
+
+
+Limiting QuerySets 
+==========================
+= Use a subset of python's array-slicing syntax to limit your QuerySet to a certain number of results.
+= This is the equivalent of SQL's LIMIT and OFFSET clauses. 
+
+ex:
+Student.objects.all()[:5]  = This returns First 5 Objects 
+Student.objects.all()[5:10] = This return sixth through tenth objects 
+Student.objects.all()[-1] = This is not valis 
+
+
+
+Model Inheritance
+=======================
+= Model Inheritance in django works almost identically to the way normal class Inheritance works in Python. 
+= The Base class should subclass django.db.models.Model. 
+
+= There are three types of Model Inheritance in Django. 
+1. Abstract Base Classes 
+2. Multi-table Inheritance
+3. Proxy Models 
+
+
+
+1. Abstract Base Classes = gs7
+= Abstract base classes are useful when you want to put some common information into a number of other models.
+= You write your base class and put abstract=True in the Meta class. 
+= This model will then not be used to create any database table. Insted, when it is used as a base class for other models, its fields 
+    will be added to those of the child class. 
+= It does not generate a database table or have a manger and cannot be instatiated or saved directly.
+= Fields inherited from abstract base classes can overriden with another field or value, or be removed with None.
+
+
+2. Multi-table Inheritance = gs8
+= In this Inheritance each model have their own database table, which means base class and child class will have their 
+    own table. 
+= The Inheritance relationship introduces links between the child model and each of its parents(via an automatically
+    created OneToOneField).
+
+
+3. Proxy Models = gs9
+= Proxy models are used to change the behavior of a model. 
+= Proxy models are declared like normal models. You tell django that it's a proxy model by setting the proxy attribute 
+    of the Meta class to True.
+
+= A proxy model must inherit from exactly one non-abstract model class. 
+= You can't inherit from multiple non-abstract models as the proxy model doesn't provide any connection between the 
+    rows in the different database tables. 
+
+= A proxy model can inherit from any number of abstract model classes, providing they do not define any model fields.
+= If you don't specify any model managers on a proxy model, it inherit the managers from its model parents. 
+
+
+
+Model Manger = gs10 
+= A Manager is the interface through which databasequery operations are provided to django models. 
+= At least one Manager exists for every model in a Django application. 
+= Model Manager is used to interact with database. 
+= By default, Django adds a Manager with the name objects to every Django model class. 
+= django.db.models.manager.Manager
+
+
+Custom Model Manager 
+===================
+= You can use a custom Manager in a particular model by extending the base Manager class and instantiating your custom
+    Manager in your model. 
+= A custom Manager method can return anything you want. It doesn't have to return a QuerySet.
+    1. To modify the initial QuerySet the Manger returns 
+    2. To add extra Manager methods 
+
+
+1. To modify the initial QuerySet 
+= A Manager's base QuerySet returns all objects in the system. 
+= You can override a Manager's base QuerySet by overiding the Manager.get_queryset() method.
+= get_queryset() should return a QuerySet with the properties you require. 
+
+
+2. To add extra Manager methods 
+= Adding extra Manager methods is the preferred way to add "table-level" 
+    functionality to your models.

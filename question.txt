@@ -1,0 +1,75 @@
+1. Media file in Django ?
+= In Django, Media file refer to user-uploaded files such as images, videos or documents.
+
+= MEDIA_ROOT :- The absolute path to the directory where media files are stored on filesystem.
+= MEDIA_URL :- The URL prefix that is used to access media files.
+
+
+Example: 
+
+Serving Media file
+
+urls.py
+---------
+from django.contrib import admin
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)   
+
+
+settings.py
+-----------
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = '/media/'
+
+
+
+2. What is {% url %} tag in Django ?
+= The {% url %} template tag in Django is used to generate absolute URLs for views.
+= It takes a URL name and an optional list of arguments.
+
+Syntax: {% url <url_name> [arg1 ..] %}
+
+
+3. What is Static file in Django ?
+= CSS files, JavaScript files, Image files, Video files and so on are considered as static file in django.
+= Django provide django.contrib.staticfiles to help you manage them.
+= Static files in Django refer to static assets like CSS, JavaScript, and images that are included in the Django application's code.
+= STATIC_URL :- This setting specifies the URL prefix that will be used to access static files. It typically defaults to /static/.
+= STATIC_ROOT :- This setting defines the root directory where all collected static files will be stored. It's usually a dedicated directory within your project's root structure.
+
+= Two way to create a static folder.
+    1. Project Level (to create static folder)
+    2. App Level (to create static folder)
+
+= Use Static Files in Templates:
+    {% load static %}
+    <img src="{% static 'images/header.png' %}" alt="Header Image">
+
+
+= Project level create static file configuration
+    STATICFILES_DIRS = [BASE_DIR/'static']
+
+
+4. What is collectstatic command in django ?
+= python manage.py collectstatic
+= This command will copy all static files from your static folders into the STATIC_ROOT directory.
+
+
+5. Difference between null and blank in Django ?
+
+1. null attribute:
+    - null is a database-related attribute that is used in the model's field definition.
+    - It determines whether a database column should be allowed to store NULL values.
+    - If null=True, it means that the database column can store NULL values, indicating that the data is not required.
+    - If null=False, the database column will not allow NULL values, indicating that the data is required.
+
+2. blank attribute:
+    - blank is a form-related attribute that is used in the model's field definition.
+    - It is used during form validation to specify whether a field is allowed to be empty when validating a form.
+    - If blank=True, the field is allowed to be empty when validating a form.
+    - If blank=False, the field is required and must be filled out in the form.
